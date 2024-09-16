@@ -54,10 +54,17 @@ struct K {
 
 ![End Banner](Documentation/readme-end-banner.png)
 
+
 # Cocaopods
+
+install it
+$ sudo gem install cocoapods
 
 content see the Podfile
 install: $ pod install
 
 remove dependencies: remove from Podfile and
 $ pod install
+
+ # SPM
+ installed firebase with Swift Package Manager (SPM) 
