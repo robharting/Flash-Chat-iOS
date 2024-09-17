@@ -33,33 +33,33 @@ class ChatViewController: UIViewController {
     }
     
     func loadMessages() {
-       
+        
         db.collection(K.FStore.collectionName)
             .order(by: K.FStore.dateField, descending: false)
             .addSnapshotListener { querySnapshot, error in
-            
-            self.messages = []
-            
-            if let e = error {
-                print("There was an issue retrieving data from FireStore. \(e)")
-            } else {
-                if let snapshotDocument = querySnapshot?.documents {
-                    for doc in snapshotDocument {
-                        let data  = doc.data()
-                        if let messageSender = data[K.FStore.senderField] as? String, let messageBody = data[K.FStore.bodyField] as? String {
-                            let newMessage = Message(sender: messageSender, body: messageBody)
-                            self.messages.append(newMessage)
-                            
-                            DispatchQueue.main.async {
-                                self.tableView.reloadData()
-                                let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
-                                self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                
+                self.messages = []
+                
+                if let e = error {
+                    print("There was an issue retrieving data from FireStore. \(e)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        for doc in snapshotDocument {
+                            let data  = doc.data()
+                            if let messageSender = data[K.FStore.senderField] as? String, let messageBody = data[K.FStore.bodyField] as? String {
+                                let newMessage = Message(sender: messageSender, body: messageBody)
+                                self.messages.append(newMessage)
+                                
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                    let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+                                    self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                                }
                             }
                         }
                     }
                 }
             }
-        }
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
@@ -125,8 +125,6 @@ extension ChatViewController: UITableViewDataSource {
             cell.MessageBubble.backgroundColor = UIColor(named: K.BrandColors.purple)
             cell.label.textColor = UIColor(named: K.BrandColors.lightPurple)
         }
-        
-        
         
         return cell
     }
